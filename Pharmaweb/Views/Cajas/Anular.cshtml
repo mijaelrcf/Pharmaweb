@@ -1,0 +1,44 @@
+﻿@model Pharmaweb.Models.VentasModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Anular Venta</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.VentasId)
+    @Html.HiddenFor(m => m.SucursalId)
+    @Html.HiddenFor(m => m.Factura)
+    @Html.HiddenFor(m => m.Nit)
+    @Html.HiddenFor(m => m.NombreCliente)
+    @Html.HiddenFor(m => m.TotalVenta)
+    @Html.HiddenFor(m => m.TotalPagado)
+    @Html.HiddenFor(m => m.Cambio)
+    @Html.HiddenFor(m => m.CatEstadoVenta)
+    @Html.HiddenFor(m => m.UsuarioCreacion)
+    @Html.HiddenFor(m => m.FechaCreacion)
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-1">
+                    <h3>
+                        <span class="label label-danger">
+                            Esta seguro de Anular la Venta?
+                        </span>
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">No</button>
+        <input class="btn btn-danger" type="submit" value="Si" />
+    </div>
+}
+

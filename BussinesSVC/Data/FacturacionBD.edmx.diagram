@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="22f42bf251f245d38f7ec89613e118e9" Name="Diagram1">
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tEmpresa" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tEstadosDeFacturas" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tRoles" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tUsuarios" Width="1.5" PointX="8.5" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="BD_CerberusSVFModel.FK_tUsuarios_tRoles" />
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tDosificaciones" Width="1.5" PointX="3.125" PointY="5.625" />
+        <AssociationConnector Association="BD_CerberusSVFModel.FK_tDosificaciones_tEmpresa" />
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tConceptoFactura" Width="1.5" PointX="7.75" PointY="6.625" />
+        <EntityTypeShape EntityType="BD_CerberusSVFModel.tFacturas" Width="1.5" PointX="6" PointY="2.875" />
+        <AssociationConnector Association="BD_CerberusSVFModel.FK_tConceptoFactura_tFacturas" />
+        <AssociationConnector Association="BD_CerberusSVFModel.FK_tFacturas_tEmpresa" />
+        <AssociationConnector Association="BD_CerberusSVFModel.FK_tFacturas_tEstadosDeFacturas" />
+        <AssociationConnector Association="BD_CerberusSVFModel.FK_tFacturas_tDosificaciones" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

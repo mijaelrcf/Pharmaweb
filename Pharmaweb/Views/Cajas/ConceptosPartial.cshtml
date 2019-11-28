@@ -1,0 +1,60 @@
+﻿@model IEnumerable<BussinesSVC.Domain.ConceptoFactura>
+@using System.Web.UI.WebControls;
+
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "gvEditing";
+            settings.KeyFieldName = "IdConceptoFactura";
+            settings.CallbackRouteValues = new { Controller = "Facturacion", Action = "ConceptosPartial" };
+            settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Facturacion", Action = "AddConceptoPartial" };
+            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Facturacion", Action = "DeleteConceptoPartial" };
+            settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.Width = Unit.Percentage(100);
+            settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+            settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+
+            if (ViewData["Impresion"] == null)
+            {
+
+                settings.CommandColumn.Visible = true;
+                settings.CommandColumn.ShowNewButton = true;
+                settings.CommandColumn.ShowDeleteButton = true;
+                settings.Columns.Add("IdConceptoFactura", "Nro");
+            }
+            else
+            {
+                settings.Width = Unit.Percentage(100);
+            }
+
+            settings.Columns.Add("Cantidad");
+            settings.Columns.Add("Concepto");
+            //settings.Columns.Add("Talla");
+            settings.Columns.Add("PrecioUnidad").PropertiesEdit.DisplayFormatString = "###,###.00";
+            settings.Columns.Add("Total").PropertiesEdit.DisplayFormatString = "###,###.00";
+
+            settings.EditFormLayoutProperties.ColCount = 1;
+
+            settings.EditFormLayoutProperties.Items.Add("Cantidad");
+            settings.EditFormLayoutProperties.Items.Add("Concepto");
+            //settings.EditFormLayoutProperties.Items.Add("Talla");
+            settings.EditFormLayoutProperties.Items.Add("PrecioUnidad");
+
+            settings.EditFormLayoutProperties.Items.AddCommandItem(itemSettings =>
+            {
+                itemSettings.ColSpan = 1;
+                itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+            });
+        });
+        
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+
+@grid.Bind(Model).GetHtml()

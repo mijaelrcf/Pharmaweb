@@ -1,0 +1,179 @@
+﻿@model Pharmaweb.Models.VentasDetalleModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">@Html.Label(Model.NombreProducto)</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.StockPaquetes)
+    @Html.HiddenFor(m => m.StockUnidades)
+    @Html.HiddenFor(m => m.UnidadesPorPaquete)
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.PrecioVentaPaquete, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.PrecioVentaPaquete, new { @class = "form-control required", @readonly = "readonly" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.PrecioVentaPaquete)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => Model.PrecioVentaUnidad, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.PrecioVentaUnidad, new { @class = "form-control required", @readonly = "readonly" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.PrecioVentaUnidad)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => Model.TipoVenta, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.TipoVenta, new { @class = "form-control required", @readonly = "readonly" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.TipoVenta)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CantidadPaquete, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.CantidadPaquete, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.CantidadPaquete)
+                    </div>
+                </div>
+            </div>
+            
+            @if(Model.TipoVenta == "PAQUETE")
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.CantidadUnidad, new { @class = "control-label col-sm-5" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.CantidadUnidad, new { @class = "form-control required", @readonly = "readonly" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.CantidadUnidad)
+                        </div>
+                    </div>
+                </div>
+            }
+            else            
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.CantidadUnidad, new { @class = "control-label col-sm-5" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.CantidadUnidad, new { @class = "form-control required" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.CantidadUnidad)
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Subtotal, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Subtotal, new { @class = "form-control required", @readonly = "readonly" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Subtotal)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if(Model.EsProductoControlado)
+            {
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <h3>
+                            <span class="label label-danger">
+                                El Producto es Controlado!
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Guardar" id="btnGuardar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+<script type="text/javascript">
+    /*
+    * Agrega la Funcion OnKeyUp a las textbox necesarios para el calculo.
+    */
+    $(function () {
+        $("#CantidadPaquete").keyup(CalculoSubTotal);
+        $("#CantidadUnidad").keyup(CalculoSubTotal);
+    });
+
+    /*
+    * Realiza el calculo del SubTotal.
+    */
+    function CalculoSubTotal(eventInstance) {
+        var precioVentaPaquete = parseFloat($("#PrecioVentaPaquete").val());
+        var precioVentaUnidad = parseFloat($("#PrecioVentaUnidad").val());
+
+        var cantidadPaquete = parseFloat($("#CantidadPaquete").val());
+        var cantidadUnidad = parseFloat($("#CantidadUnidad").val());
+        var subtotal = parseFloat(0);
+
+        if (cantidadPaquete >= 0 && cantidadUnidad >= 0)
+            subtotal = precioVentaPaquete * cantidadPaquete + precioVentaUnidad * cantidadUnidad;
+
+        $("#Subtotal").val(subtotal.toFixed(2));
+    }
+
+    /*
+    * Evalua si el Monto Pagado es mayor al Total de la Venta.
+    */
+    $("#btnGuardar").click(function () {
+
+        var cantidadPaquete = parseFloat($("#CantidadPaquete").val());
+        var cantidadUnidad = parseFloat($("#CantidadUnidad").val());
+
+        var stockPaquete = parseFloat($("#StockPaquetes").val());
+        var stockUnidades = parseFloat($("#StockUnidades").val());
+        var unidadesPorPaquete = parseFloat($("#UnidadesPorPaquete").val());
+
+        if (cantidadPaquete <= 0 && cantidadUnidad <= 0) {
+            alert("La 'Cantidad de Paquetes' o la 'Cantidad de Unidades' debe ser mayor a Cero.");
+            return false;
+        }
+        var totalUnidades = cantidadPaquete * unidadesPorPaquete + cantidadUnidad;
+        var stockUnidades = stockPaquete * unidadesPorPaquete + stockUnidades;
+
+        if (totalUnidades > stockUnidades) {
+            alert("La 'Cantidad de Paquetes' o la 'Cantidad de Unidades' sobre pasa el STOCK que se tiene en INVENTARIO. Introduzca una cantidad menor Por Favor.");
+            return false;
+        }
+    });
+</script>

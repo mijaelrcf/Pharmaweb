@@ -1,0 +1,18 @@
+﻿@model BussinesSVC.Domain.Factura
+
+@{
+    Layout = null;
+    ViewBag.Title = "Impresion";
+}
+
+<div id="content_main">
+
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.printPage.js"></script>
+    <script src="~/Scripts/Impresion.js"></script>
+
+
+    @{ Html.RenderPartial("_ImpresionHorizontal", Model); }
+
+</div>
+<input type="button" value="Imprimir" onclick="javascript: printPage()" />

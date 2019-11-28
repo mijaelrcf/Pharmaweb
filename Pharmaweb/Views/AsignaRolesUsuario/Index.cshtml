@@ -1,0 +1,49 @@
+﻿@model List<Pharmaweb.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MasterUsuariosRoles.cshtml";
+}
+
+<h2>Asigna Roles Usuario </h2>
+
+<div class="well">
+    @using (Html.BeginForm())
+{
+    <div style="margin-top:17px;" class="table-responsive">
+        @{
+            var grid = new WebGrid(canPage: true, rowsPerPage: 50, canSort: false, ajaxUpdateContainerId: "grid");
+
+            //grid.Bind(Model.Content, rowCount: Model.TotalRecords, autoSortAndPage: false);
+            grid.Bind(Model);
+            grid.Pager(WebGridPagerModes.All);
+
+            @grid.GetHtml(
+                    htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                    fillEmptyRows: false,
+                    tableStyle: "table table-bordered table-hover",
+        //headerStyle: "head1",
+        //alternatingRowStyle: "alt1",
+                    mode: WebGridPagerModes.All,
+                    columns: grid.Columns(
+                        grid.Column("UserName", "Usuario"),
+                        grid.Column(header: "Asignar Roles", canSort: false, style: "action",
+                            format:
+                            @<text>
+                                @Html.ActionLink(" ", "Create", "AsignaRolesUsuario", new { idUsuario = item.Id }, new { data_modal = "", @class = "glyphicon glyphicon-log-in" })
+                            </text>
+                                                 )
+                                             )
+                                         );
+        }
+    </div>
+}
+</div>
+
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+

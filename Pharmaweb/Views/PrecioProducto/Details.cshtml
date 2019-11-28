@@ -1,0 +1,185 @@
+﻿@model Pharmaweb.Models.PrecioProductoModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Detalle</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.SucursalId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.SucursalId, Model.lstSucursal, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.SucursalId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LaboratorioId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.LaboratorioId, Model.lstLaboratorio, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LaboratorioId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LineaId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.LineaId, Model.lstLinea, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LineaId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.ProductoId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.ProductoId, Model.lstProducto, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.ProductoId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Costo, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Costo, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Costo)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Base, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Base, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Base)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Bonificacion, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Bonificacion, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Bonificacion)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Descuento1, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Descuento1, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">%</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Descuento1)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Descuento2, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Descuento2, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">%</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Descuento2)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Descuento3, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Descuento3, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">%</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Descuento3)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Descuento4, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Descuento4, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">%</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Descuento4)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CostoTotal, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.CostoTotal, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.CostoTotal)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.PrecioVentaPaquete, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.PrecioVentaPaquete, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.PrecioVentaPaquete)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.PrecioVentaUnidad, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.PrecioVentaUnidad, new { @class = "form-control required", @disabled = "disabled" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.PrecioVentaUnidad)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+    </div>
+}

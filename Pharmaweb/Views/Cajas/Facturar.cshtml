@@ -1,0 +1,141 @@
+﻿@model Pharmaweb.Models.VentasModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Facturar Venta</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.VentasId)
+    @Html.HiddenFor(m => m.SucursalId)
+    @Html.HiddenFor(m => m.CatEstadoVenta)
+    @Html.HiddenFor(m => m.UsuarioCreacion)
+    @Html.HiddenFor(m => m.FechaCreacion)
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Factura, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Factura, new { @class = "form-control required", @readonly = "readonly" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Factura)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Nit, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Nit, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Nit)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.NombreCliente, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.NombreCliente, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.NombreCliente)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.TotalVenta, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.TotalVenta, new { @class = "form-control required", @readonly = "readonly" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.TotalVenta)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.TotalPagado, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.TotalPagado, new { @class = "form-control required" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.TotalPagado)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Cambio, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Cambio, new { @class = "form-control required", @readonly = "readonly" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Cambio)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Facturar" id="btnFacturar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+<script type="text/javascript">
+    /*
+    * Agrega la Funcion OnKeyUp a las textbox necesarios para el calculo.
+    */
+    $(function () {
+        $("#TotalPagado").keyup(CalculoCambio);
+    });
+
+    /*
+    * Realiza el calculo del Cambio.
+    */
+    function CalculoCambio(eventInstance) {
+        var totalVenta = parseFloat($("#TotalVenta").val());
+        var totalPagado = parseFloat($("#TotalPagado").val());
+
+        var cambio = parseFloat(0);
+
+        if (totalVenta > 0 && totalPagado > 0)
+            cambio = totalPagado - totalVenta;
+
+        $("#Cambio").val(cambio.toFixed(2));
+    }
+
+    /*
+    * Evalua si el Monto Pagado es mayor al Total de la Venta.
+    */
+    $("#btnFacturar").click(function () {
+
+        var totalVenta = parseFloat($("#TotalVenta").val());
+        var totalPagado = parseFloat($("#TotalPagado").val());
+
+        var resultado = totalPagado - totalVenta;
+
+        if (resultado < 0) {
+            alert("El 'Total Pagado' no puede ser menor al 'Total Vendido'.");
+            return false;
+        }
+    });
+</script>

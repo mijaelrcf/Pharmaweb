@@ -1,0 +1,46 @@
+﻿@model Pharmaweb.Models.AsignaRolesUsuarioModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Crear</h4>
+</div>
+
+@using (Html.BeginForm("Create", "AsignaRolesUsuario"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m=>m.IdUsuario)
+    
+    <div class="modal-body">
+        <div class="well">
+            @{
+                var grid = new WebGrid(Model.RolesUsuarioList, canSort: false, canPage: false);
+                int rowNum = 0;
+            }
+            <div>
+                @grid.GetHtml(displayHeader: true,
+                tableStyle: "table table-bordered table-hover",
+                 headerStyle: "head",
+                 alternatingRowStyle: "alt",
+                 columns:
+                 grid.Columns
+                 (
+                      grid.Column("Nro.", format: item => rowNum = rowNum + 1, canSort: false, style: "alinearm"),                      
+                      grid.Column("Rol", format: (item) => Html.TextBox("RolesUsuarioList[" + (rowNum - 1).ToString() + "].Rol", (object)item.Rol, new { @readonly = "readonly", @class = "form-control" })),
+                      grid.Column("Asignado", format: (item) => Html.CheckBox("RolesUsuarioList[" + (rowNum - 1).ToString() + "].asignado", item.Asignado == true ? true : false, (object)item.Asignado))
+                 ), mode: WebGridPagerModes.Numeric)
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Guardar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+

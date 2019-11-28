@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MasterReportes.cshtml";
+}
+
+<h2>Reportes</h2>
+
+@*@using (Html.BeginForm("Impresion","Cajas"))
+    {
+        @Html.AntiForgeryToken()
+        <input class="btn btn-success" type="submit" value="Facturar" id="btnFacturar" />
+    }*@
+
+
+@*@Html.DevExpress().WebDocumentViewer(settings =>
+    {
+        settings.Name = "WebDocumentViewer";
+    }).Bind(new XtraReport1()).GetHtml()*@
+
+
+@*@Html.Action("DocumentViewerPartial")*@
+
+@*@Html.DevExpress().RadioButtonList(settings =>
+    {
+        settings.Name = "RadioButtonList1";
+        settings.Properties.Items.Add("Item 0");
+        settings.Properties.Items.Add("Item 1");
+        settings.Properties.Items.Add("Item 2");
+        settings.Properties.RepeatColumns = 6;
+        settings.Properties.RepeatDirection = System.Web.UI.WebControls.RepeatDirection.Horizontal;
+    }).GetHtml()*@
+@using Pharmaweb.Models
+@using DevExpress.Web
+
+@{
+    CheckListDemoOptions options = (CheckListDemoOptions)ViewData["Options"];
+}
+
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td style="width: 900px">
+                @Html.DevExpress().RadioButtonList(
+                    settings =>
+                    {
+                        settings.Name = "radioButtonList1";
+                        settings.Properties.ValueField = "ID";
+                        settings.Properties.TextField = "Name";
+                        settings.Properties.RepeatLayout = options.RepeatLayout;
+                        settings.Properties.RepeatDirection = options.RepeatDirection;
+                        settings.Properties.RepeatColumns = options.RepeatColumns;
+                    }).GetHtml()
+            </td>
+            <td class="vertOptionsCell" style="vertical-align: top; padding: 0px 0px 0px 20px">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="RepeatLayout" style="width: 120px">Layout:</label>
+                        </td>
+                        <td>
+                            @Html.DropDownList("RepeatLayout", CheckListDemoHelper.GetRepeatLayouts(), new { style = "width:100px" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="RepeatDirection" style="width: 120px">Direction:</label>
+                        </td>
+                        <td>
+                            @Html.DropDownList("RepeatDirection", CheckListDemoHelper.GetRepeatDirections(), new { style = "width:100px" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="RepeatColumns" style="width: 120px">Repeat Columns:</label>
+                        </td>
+                        <td>
+                            @Html.DropDownList("RepeatColumns", CheckListDemoHelper.GetRepeatColumns(), new { style = "width:100px" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="Apply" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+}
+
+@Html.Action("DocumentViewerPartial")

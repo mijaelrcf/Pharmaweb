@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Pharmaweb</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/modal-generico.js")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="~/Scripts/globalize.js"></script>
+    <script src="~/Scripts/knockout-3.0.0.js"></script>
+    @Html.DevExpress().GetStyleSheets(
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.RichEdit },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Spreadsheet },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.SpellChecker }
+    )
+    @Html.DevExpress().GetScripts(
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+    new Script { ExtensionSuite = ExtensionSuite.GridView },
+    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Chart },
+    new Script { ExtensionSuite = ExtensionSuite.Report },
+    new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+    new Script { ExtensionSuite = ExtensionSuite.TreeList },
+    new Script { ExtensionSuite = ExtensionSuite.RichEdit },
+    new Script { ExtensionSuite = ExtensionSuite.Spreadsheet },
+    new Script { ExtensionSuite = ExtensionSuite.SpellChecker }
+    )
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Pharmaweb", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Inicio
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                        </ul>
+                    </li>
+
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Administrador"))
+                        {
+                            <li>@Html.ActionLink("ADM. Usuarios y Roles", "Index", "Usuarios")</li>
+                            <li>@Html.ActionLink("ADM. Productos", "Index", "Producto")</li>
+                            <li>@Html.ActionLink("ADM. Inventario", "Index", "Sucursal")</li>
+                        }
+
+                        if (User.IsInRole("Ventas") || User.IsInRole("Administrador"))
+                        {
+                            <li>@Html.ActionLink("Ventas", "Index", "Ventas")</li>
+                        }
+                        if (User.IsInRole("Cajas") || User.IsInRole("Administrador"))
+                        {
+                            <li>@Html.ActionLink("Cajas", "Index", "Cajas")</li>
+                        }
+                        if (User.IsInRole("Reportes") || User.IsInRole("Administrador"))
+                        {
+                            <li>@Html.ActionLink("Reportes", "Index", "ReporteVentasUtilidades")</li>
+                        }
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Pharmaweb</p>
+        </footer>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var cambio = false;
+        $('.nav li a').each(function (index) {
+            if (this.href.trim() == window.location) {
+                $(this).parent().addClass("active");
+                cambio = true;
+            }
+        });
+        if (!cambio) {
+            $('.nav li:first').addClass("active");
+        }
+    });
+</script>

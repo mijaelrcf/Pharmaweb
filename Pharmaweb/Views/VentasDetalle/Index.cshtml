@@ -1,0 +1,72 @@
+﻿@model List<Pharmaweb.Models.VentasDetalleModels>
+@{
+    ViewBag.Title = "Ventas Detalle";
+    Layout = null;
+}
+
+<h1>Ventas Detalle</h1>
+<div class="well">
+
+    @using (Html.BeginForm("Index", null, FormMethod.Post))
+    {
+        @*<div class="form-group">
+            <div class="col-sm-4">
+                @Html.TextBox("Nit", "", new { @class = "form-control required", @id = "txtNit" })
+            </div>
+        </div>*@
+        
+        
+        <div style="margin-top:17px;">
+            @{
+                WebGrid grid = new WebGrid(rowsPerPage: 50, defaultSort: "NombreProducto", ajaxUpdateContainerId: "container-grid", canPage: true, canSort: true);
+                grid.Bind(Model, autoSortAndPage: false, rowCount: 20);
+                grid.Pager(WebGridPagerModes.All);
+                <div id="container-grid">
+                    @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                            fillEmptyRows: false,
+                            alternatingRowStyle: "alternate-row",
+                            headerStyle: "grid-header",
+                            footerStyle: "grid-footer",
+                            mode: WebGridPagerModes.All,
+                            firstText: "<< First",
+                            previousText: "< Prev",
+                            nextText: "Next >",
+                            lastText: "Last >>",
+                            tableStyle: "table table-bordered table-hover",
+
+                            columns: grid.Columns(
+                             grid.Column("NombreProducto", header: "Producto"),
+                             grid.Column("CantidadPaquete", header: "Cantida de Paquetes"),
+                             grid.Column("CantidadUnidad", header: "Cantidad de Unidades"),
+                             grid.Column("Subtotal", header: "Subtotal"),
+                             grid.Column(header: "Acciones", canSort: false, style: "action",
+                            format: @<text>
+                                @Html.ActionLink(" ", "Details", "VentasDetalle", new { ventasId = item.VentasId, productoId = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-search" })
+                                @Html.ActionLink(" ", "Edit", "VentasDetalle", new { ventasId = item.VentasId, productoId = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-edit" })
+                                @Html.ActionLink(" ", "Delete", "VentasDetalle", new { ventasId = item.VentasId, productoId = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-trash" })
+                            </text>)
+                    ))
+                </div>
+            }
+        </div>
+        if (Model.Count > 0)
+        {
+            <div class="modal-footer">
+                <a class="btn btn-success" data-modal="" href="~/VentasDetalle/GuardarVenta">Guardar Venta [F9]</a>
+                <a class="btn btn-warning" data-modal="" href="~/VentasDetalle/CancelarVenta">Cancelar Venta [F10]</a>
+            </div>
+        }
+    }
+</div>
+
+
+
+@*<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>*@
+
+@*@Scripts.Render("~/Scripts/modal-generico.js")*@

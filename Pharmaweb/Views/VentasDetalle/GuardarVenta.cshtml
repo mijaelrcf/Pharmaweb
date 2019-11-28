@@ -1,0 +1,86 @@
+﻿@model Pharmaweb.Models.VentasModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Guardar Venta</h4>
+</div>
+
+@using (Html.BeginForm("GuardarVenta", "VentasDetalle", FormMethod.Post, new { id = "formVentasDetalle" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.VentasId)
+    @Html.HiddenFor(m => m.SucursalId)
+    @Html.HiddenFor(m => m.Factura)
+    @Html.HiddenFor(m => m.TotalVenta)
+    @Html.HiddenFor(m => m.TotalPagado)
+    @Html.HiddenFor(m => m.Cambio)
+    @Html.HiddenFor(m => m.CatEstadoVenta)
+    @Html.HiddenFor(m => m.UsuarioCreacion)
+    @Html.HiddenFor(m => m.FechaCreacion)
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Nit, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Nit, new { @class = "form-control required", @id = "txtNit" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Nit)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.NombreCliente, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.NombreCliente, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.NombreCliente)
+                    </div>
+                </div>
+            </div>
+
+            @*
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Subtotal, new { @class = "control-label col-sm-5" })
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Subtotal, new { @class = "form-control required", @readonly = "readonly" })
+                        <span class="input-group-addon">Bs</span>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Subtotal)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            *@
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Guardar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+<script type="text/javascript">
+    $("#txtNit").autocomplete({
+        source: "/VentasDetalle/GetNit",
+        minLength: 2,
+        appendTo: $("#formVentasDetalle"),
+        select: function (event, ui) {
+            var item = ui.item;
+            if (item) {
+                //$("#txtNit").val(item.id);
+                $("#NombreCliente").val(item.id);
+            }
+        }
+    })
+</script>

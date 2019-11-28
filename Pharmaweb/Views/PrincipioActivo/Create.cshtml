@@ -1,0 +1,37 @@
+﻿@model Pharmaweb.Models.PrincipioActivoModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Crear</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.NombrePrincipioActivo, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.NombrePrincipioActivo, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.NombrePrincipioActivo)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Guardar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+

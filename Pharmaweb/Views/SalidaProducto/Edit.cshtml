@@ -1,0 +1,186 @@
+﻿@model Pharmaweb.Models.SalidaProductoModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Editar</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.SalidaProductoId)
+    @Html.HiddenFor(m => m.UsuarioCreacion)
+    @Html.HiddenFor(m => m.FechaCreacion)
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.SucursalId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.SucursalId, Model.lstSucursal, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.SucursalId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LaboratorioId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.LaboratorioId, Model.lstLaboratorio, "-- Seleccionar --", new { @class = "form-control required", @id = "ddlLaboratorio" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LaboratorioId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LineaId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.LineaId, Model.lstLinea, "-- Seleccionar --", new { @class = "form-control required", @id = "ddlLinea" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LineaId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.ProductoId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.ProductoId, Model.lstProducto, "-- Seleccionar --", new { @class = "form-control required", @id = "ddlProducto" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.ProductoId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CatTipoSalida, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.CatTipoSalida, Model.lstCatTipoSalida, "-- Seleccionar --", new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.CatTipoSalida)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CantidadPaquetes, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.CantidadPaquetes, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.CantidadPaquetes)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CantidadUnidades, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.CantidadUnidades, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.CantidadUnidades)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Guardar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#ddlLaboratorio").change(function () {
+            var idModel = "" + $(this).val();
+            $.getJSON("/PrecioProducto/GetLineas", { id: idModel },
+            function (result) {
+                var select = $("#ddlLinea");
+                select.empty();
+                $.each(result, function (index, obj) {
+
+                    select.append($('<option/>', {
+                        value: obj.Value,
+                        text: obj.Text
+                    }));
+                });
+            });
+        });
+
+        $("#ddlLinea").change(function () {
+            var idModel = "" + $(this).val();
+            $.getJSON("/PrecioProducto/GetProductos", { id: idModel },
+            function (result) {
+                var select = $("#ddlProducto");
+                select.empty();
+                $.each(result, function (index, obj) {
+
+                    select.append($('<option/>', {
+                        value: obj.Value,
+                        text: obj.Text
+                    }));
+                });
+            });
+        });
+
+        $("#ddlProducto").change(function () {
+            var idModel = "" + $(this).val();
+            $.getJSON("/PrecioProducto/GetPorcentajeGanancia", { id: idModel },
+            function (result) {
+                $("#Margen").val(result);
+            });
+        });
+    });
+
+    /*
+    * Agrega la Funcion OnKeyUp a las textbox necesarios para el calculo
+    */
+    $(function () {
+        $("#Costo").keyup(CalculoCostoPrecio);
+        $("#Base").keyup(CalculoCostoPrecio);
+        $("#Bonificacion").keyup(CalculoCostoPrecio);
+        $("#Descuento1").keyup(CalculoCostoPrecio);
+        $("#Descuento2").keyup(CalculoCostoPrecio);
+        $("#Descuento3").keyup(CalculoCostoPrecio);
+        $("#Descuento4").keyup(CalculoCostoPrecio);
+    });
+
+    /*
+    * Realiza el calculo del Costo menos los descuentos = Costo Total y el Costo Total * el Margen de Ganancia de la Linea.
+    */
+    function CalculoCostoPrecio(eventInstance) {
+        var margen = parseFloat($("#Margen").val() / 100);
+        var costo = parseFloat($("#Costo").val());
+        var base = parseFloat($("#Base").val());
+        var bonificacion = parseFloat($("#Bonificacion").val());
+        var descuento1 = parseFloat($("#Descuento1").val());
+        var descuento2 = parseFloat($("#Descuento2").val());
+        var descuento3 = parseFloat($("#Descuento3").val());
+        var descuento4 = parseFloat($("#Descuento4").val());
+
+        if (base > 0 && bonificacion > 0)
+            costo = costo * base / (base + bonificacion);
+
+        var d1 = costo * (descuento1 / 100);
+        var d2 = costo * (descuento2 / 100);
+        var d3 = costo * (descuento3 / 100);
+        var d4 = costo * (descuento4 / 100);
+
+        var costoTotal = costo - d1 - d2 - d3 - d4;
+        var precioVenta = costoTotal + (costoTotal * margen);
+
+        $("#CostoTotal").val(costoTotal.toFixed(2));
+        $("#PrecioVenta").val(precioVenta.toFixed(2));
+    }
+</script>

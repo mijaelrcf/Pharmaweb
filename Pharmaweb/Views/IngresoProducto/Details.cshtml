@@ -1,0 +1,133 @@
+﻿@using Pharmaweb.Extensions;
+@using Pharmaweb.Models;
+@model Pharmaweb.Models.IngresoProductoModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Detalle</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+            
+            <div class="form-group">
+                @Html.LabelFor(m => Model.SucursalId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.SucursalId, Model.lstSucursal, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.SucursalId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CatTipoIngreso, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.CatTipoIngreso, Model.lstCatTipoIngreso, "-- Seleccionar --", new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.CatTipoIngreso)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.NroFactura, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.NroFactura, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.NroFactura)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Observacion, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Observacion, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Observacion)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LaboratorioId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => model.LaboratorioId, Model.lstLaboratorio, "-- Seleccionar Lab. --", new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LaboratorioId)
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <em data-bind="validationMessage: detalle"></em>
+            </div>
+            <div class="table-responsive">
+                <div style="margin-top:17px;">
+                    @{
+                        WebGrid grid = new WebGrid(defaultSort: "NombreLaboratorio", ajaxUpdateContainerId: "container-grid", canPage: false, canSort: false);
+                        grid.Bind(Model.Detalle, autoSortAndPage: false);
+                        //grid.Pager(WebGridPagerModes.All);
+                                <div id="container-grid">
+                                    @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                                        fillEmptyRows: false,
+                                        alternatingRowStyle: "alternate-row",
+                                        headerStyle: "grid-header",
+                                        footerStyle: "grid-footer",
+                                        mode: WebGridPagerModes.All,
+                                        firstText: "<< First",
+                                        previousText: "< Prev",
+                                        nextText: "Next >",
+                                        lastText: "Last >>",
+                                        tableStyle: "table table-bordered table-hover",
+
+                                        columns: grid.Columns(
+                                          grid.Column("NombreProducto", header: "Nombre Producto"),
+                                          grid.Column("CantidadPaquetes", header: "Cantidad de Paquetes"),
+                                          grid.Column("CantidadUnidades", header: "Cantidad de Unidades"),
+                                          grid.Column("FechaVencimiento", header: "Fecha Vencimiento", format: @<text>@item.FechaVencimiento.ToString("dd/MM/yyyy")</text>)
+                                        ))
+                                </div>
+                    }
+
+                </div>
+            </div>
+            @*<p>
+                    <input type="submit" value="Crear" data-bind="enable: canCreate()" />
+                </p>*@
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+    </div>
+}
+@*<div>
+        @Html.ActionLink("Volver al listado", "Index")
+    </div>*@
+@*<script src="~/Scripts/jquery-2.0.0.js"></script>*@
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/knockout-2.2.1.js"></script>
+<script src="~/Scripts/knockout.validation.js"></script>
+<script src="~/Scripts/IngresoProductoCreate.js"></script>
+<script>
+    // catálogo de productos que se utiliza para llenar el <select /> de productos de cada detalle
+    var productos = JSON.parse('@Html.Raw(Json.Encode(ViewBag.Productos))');
+
+    // viewModel con el que haremos el binding de nuestra vista.
+    var viewModel = new facturaViewModel();
+
+    // inicializamos la validación de knockout.
+    ko.validation.init({ insertMessages: false, parseInputAttributes: true });
+
+    // aplicamos el viewModel a nuestra vista.
+    ko.applyBindings(viewModel);
+</script>

@@ -1,0 +1,74 @@
+﻿@model Pharmaweb.Models.PagedList<Pharmaweb.Models.LaboratorioModels>
+@{
+    ViewBag.Title = "Laboratorio";
+    Layout = "~/Views/Shared/_MasterProducto.cshtml";
+}
+
+<h1>Laboratorio</h1>
+<div class="well">
+    @using (Html.BeginForm("Index", null, FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text"
+                            name="filter"
+                            value="@ViewBag.filter"
+                            class="form-control"
+                            style="display: inline"
+                            placeholder="Buscar Laboratorio"
+                            id="txtProducto" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                </div>
+            </div>
+            <div class="pull-right col-lg-2">
+                <a class="btn btn-success" data-modal="" href="~/Laboratorio/Create" id="btnCreate">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;<span>Nuevo Registro</span>
+                </a>
+            </div>
+        </div>
+
+        <div style="margin-top:17px;">
+            @{
+        WebGrid grid = new WebGrid(rowsPerPage: Model.PageSize, defaultSort: "NombreLaboratorio", ajaxUpdateContainerId: "container-grid", canPage: true, canSort: true);
+        grid.Bind(Model.Content, autoSortAndPage: false, rowCount: Model.TotalRecords);
+        grid.Pager(WebGridPagerModes.All);
+        <div id="container-grid">
+            @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                    fillEmptyRows: false,
+                    alternatingRowStyle: "alternate-row",
+                    headerStyle: "grid-header",
+                    footerStyle: "grid-footer",
+                    mode: WebGridPagerModes.All,
+                    firstText: "<< First",
+                    previousText: "< Prev",
+                    nextText: "Next >",
+                    lastText: "Last >>",
+                    tableStyle: "table table-bordered table-hover",
+
+                    columns: grid.Columns(
+                      grid.Column("NombreLaboratorio", header: "Nombre Laboratorio"),
+                      grid.Column(header: "Acciones", canSort: false, style: "action",
+                      format: @<text>
+                        @Html.ActionLink(" ", "Details", "Laboratorio", new { id = item.LaboratorioId }, new { data_modal = "", @class = "glyphicon glyphicon-search" })
+                        @Html.ActionLink(" ", "Edit", "Laboratorio", new { id = item.LaboratorioId }, new { data_modal = "", @class = "glyphicon glyphicon-edit" })
+                        @Html.ActionLink(" ", "Delete", "Laboratorio", new { id = item.LaboratorioId }, new { data_modal = "", @class = "glyphicon glyphicon-trash" })
+                            </text>)
+                                                          ))
+        </div>
+            }
+
+        </div>
+    }
+</div>
+
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+

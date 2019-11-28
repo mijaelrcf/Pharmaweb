@@ -1,0 +1,79 @@
+﻿@model CerberusSVF.Models.LibroVentasModel
+@{
+    ViewBag.Title = "Libro de Ventas";
+    Layout = "~/Views/Shared/_MasterReportes.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <legend>Ingrese la informacion para la factura</legend>
+    <ul>
+
+        <li>
+            @Html.LabelFor(m => m.Gestion)
+            @Html.EditorFor(m => m.Gestion)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.Mes)
+            @Html.EditorFor(m => m.Mes)
+        </li>
+
+    </ul>
+    <input type="submit" value="Genera Libro de Ventas" />
+
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <h2>Libro Ventas</h2>
+
+        @{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "gvEditing";
+            settings.KeyFieldName = "id_dosificacion_nb";
+            settings.CallbackRouteValues = new { Controller = "Facturacion", Action = "LibroVentas" };
+            settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.SettingsPager.PageSize = 300;
+            settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+            settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+
+
+            settings.Columns.Add("NIT");
+            settings.Columns.Add("RAZONSOCIAL");
+            settings.Columns.Add("NUMEROFACTURA");
+            settings.Columns.Add("NUMEROAUTORIZACION");
+            settings.Columns.Add("FECHA");
+            settings.Columns.Add("IMPORTETOTALFACTURA");
+            settings.Columns.Add("IMPORTE_ICE");
+            settings.Columns.Add("IMPORTE_EXCENTO");
+            settings.Columns.Add("IMPORTE_SUJETO_A_DEB_FISCAL");
+            settings.Columns.Add("DEBITOFISCAL");
+            settings.Columns.Add("ESTADO");
+            settings.Columns.Add("CODIGO_DE_CONTROL");
+
+
+
+        });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+        }
+        @grid.Bind(Model.Items).GetHtml()
+    </fieldset>
+    @Html.ValidationSummary()
+}
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+    using (Html.BeginForm("ExportarVentas", "ReporteLibroVentas", new { Mes = Model.Mes, Gestion = Model.Gestion }))
+    {
+
+        <input type="submit" value="Exporta Libro de Ventas" />
+
+    }
+}
+

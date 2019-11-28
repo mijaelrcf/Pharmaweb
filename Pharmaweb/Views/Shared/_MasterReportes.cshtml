@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menuAdmReportes">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="menuAdmReportes">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Reporte Ventas y Utilidades", "Index", "ReporteVentasUtilidades")</li>
+                <li>@Html.ActionLink("Reporte Vencimientos", "Index", "ReporteVencimientos")</li>
+                <li>@Html.ActionLink("Reporte Libro de Ventas", "Index", "ReporteLibroVentas")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container body-content">
+    @RenderBody()
+</div>
+

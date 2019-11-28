@@ -1,0 +1,166 @@
+﻿@model Pharmaweb.Models.PagedList<Pharmaweb.Models.VentasModels>
+@{
+    ViewBag.Title = "Ventas";
+    //Layout = null;
+}
+<style>
+    .focused td {
+        background: blue;
+    }
+</style>
+<h1>Ventas</h1>
+<div class="well">
+    @using (Html.BeginForm("Index", null, FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text"
+                            name="filter"
+                            value="@ViewBag.filter"
+                            class="form-control"
+                            style="display: inline"
+                            placeholder="Buscar Producto, Linea, Laboratorio"
+                            id="txtProducto" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                </div>
+            </div>
+            @*<div class="pull-right col-lg-2">
+                <a class="btn btn-success" data-modal="" href="~/Ventas/Create" id="btnCreate">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;<span>Nuevo Registro</span>
+                </a>
+            </div>*@
+        </div>
+
+        <div style="margin-top:17px;">
+            @{
+        WebGrid grid = new WebGrid(rowsPerPage: Model.PageSize, defaultSort: "NombreProducto", ajaxUpdateContainerId: "container-grid", canPage: true, canSort: true);
+        grid.Bind(Model.Content, autoSortAndPage: false, rowCount: Model.TotalRecords);
+        grid.Pager(WebGridPagerModes.All);
+        <div id="container-grid">
+            @grid.GetHtml(htmlAttributes: new { id = "gridVentas" },   // id for ajaxUpdateContainerId parameter
+                    fillEmptyRows: false,
+                    alternatingRowStyle: "alternate-row",
+                    headerStyle: "grid-header",
+                    footerStyle: "grid-footer",
+                    mode: WebGridPagerModes.All,
+                    firstText: "<< First",
+                    previousText: "< Prev",
+                    nextText: "Next >",
+                    lastText: "Last >>",
+                    tableStyle: "table table-bordered table-hover",
+
+                    columns: grid.Columns(
+                    grid.Column("NombreLaboratorio", header: "Laboratorio"),
+                    grid.Column("NombreLinea", header: "Linea"),
+                    grid.Column("NombreProducto", header: "Producto"),
+                    grid.Column("PrecioVentaPaquete", header: "Precio por Paquete"),
+                    grid.Column("PrecioVentaUnidad", header: "Precio por Unidad"),
+                    grid.Column(header: "Cant. Paquetes en Stock", format: @<text><input type="text" class="cantPaquetes form-control" readonly=readonly size="5" value="@item.CantidadPaquete" /></text>),
+                    grid.Column(header: "Cant. Unidades en Stock", format: @<text><input type="text" class="cantUnidades form-control" readonly=readonly size="5" value="@item.CantidadUnidad" /></text>),
+                    //grid.Column(header: "Fecha de Vencimiento", format: @<text><input type="text" class="fechaVencimiento form-control" readonly=readonly size="5" value="@item.FechaVencimiento"  /></text>),
+                    //grid.Column(header: "", format: @<text><input type="text" class="diferencia form-control" readonly=readonly size="5" style="display:none" value="3" /></text>),
+                    //grid.Column("CantidadPaquete", header: "Cantidad de Paquetes"),
+                    //grid.Column("CantidadUnidad", header: "Cantidad de Unidades"),
+                    grid.Column("FechaVencimiento", header: "Fecha de Vencimiento", format: (item) => string.Format("{0:dd-MMM-yyyy}", item.FechaVencimiento)),
+                    @*grid.Column("Description",canSort:true,header: "Description",format: @<span>
+                        <span id="spanDescription_@item.ProductoId">@item.NombreProducto</span> 
+                        @Html.TextBox("Description" + (int)item.ProductoId, (string)item.NombreProducto, new { @style = "display:none" })</span>),*@
+                    grid.Column(null,null,canSort:false, format: @<input type="hidden" class="diferencia" name=" idhidden" value="@item.VencimientoEnDias" />),
+                    grid.Column(header: "Acciones", canSort: false, style: "action",
+                    format: 
+                    @<text>
+                        @if (item.CantidadPaquete > 0 || item.CantidadUnidad > 0)
+                        {
+                            @Html.ActionLink(" ", "AddProducto", "Ventas", new { productoId = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-shopping-cart" })
+                        }
+                    </text>)
+                ))
+            </div>
+            }
+
+        </div>
+    }
+</div>
+
+<div id="VentasDetalle">
+    @Html.Action("Index", "VentasDetalle")
+</div>
+
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#container-grid tbody tr").each(function (i, row) {
+            var $actualRow = $(row);
+            if ($actualRow.find('input.cantPaquetes[type=text]').val() > 0 && $actualRow.find('input.cantUnidades[type=text]').val() > 0) {
+                $actualRow.css("background-color", "#ACEC79");
+            }
+        });
+
+        $("#container-grid tbody tr").each(function (i, row) {
+            var $actualRow = $(row);
+            if ($actualRow.find('input.diferencia[type=hidden]').val() <= 90) {
+                $actualRow.css("background-color", "#F48479");
+            }
+        });
+    });
+    
+    //Evento al presionar la tecla F9 -> keycode= 120
+    $(document).keypress(function (e) {
+        if (e.keyCode == 120) {
+            //alert('se presiono la tecla F9');
+            $('#myModalContent').load("VentasDetalle/GuardarVenta", function () {
+                $('#myModal').modal({
+                    keyboard: true
+                }, 'show');
+
+                bindForm(this);
+            });
+            return false;
+        }
+    });
+
+    $(document).keypress(function (e) {
+        if (e.keyCode == 119) {
+            //alert('se presiono la tecla F10');
+            $('#myModalContent').load("VentasDetalle/CancelarVenta", function () {
+                $('#myModal').modal({
+                    keyboard: true
+                }, 'show');
+
+                bindForm(this);
+            });
+            return false;
+        }
+    });
+
+    //$(function () {
+    //    var focusedRow = null;
+    //    $('#gridVentas').on('keydown', function (ev) {
+    //        console.log(ev.keyCode);
+    //        alert("Hola");
+    //        if (focusedRow == null) {
+    //            focusedRow = $('tr:nth-child(1)', '#gridVentas');
+    //        } else if (ev.keyCode === 38) {
+    //            focusedRow.toggleClass('focused');
+    //            focusedRow = focusedRow.prev('tr');
+    //        } else if (ev.keyCode === 40) {
+    //            focusedRow.toggleClass('focused');
+    //            focusedRow = focusedRow.next('tr');
+    //        }
+    //        focusedRow.toggleClass('focused');
+    //    });
+    //    $('#gridVentas').focus();
+    //});
+</script>
+

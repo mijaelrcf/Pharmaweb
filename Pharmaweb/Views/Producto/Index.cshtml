@@ -1,0 +1,86 @@
+﻿@model Pharmaweb.Models.PagedList<Pharmaweb.Models.ProductoModels>
+@{
+    ViewBag.Title = "Producto";
+    Layout = "~/Views/Shared/_MasterProducto.cshtml";
+}
+
+<h1>Producto</h1>
+<div class="well">
+    @using (Html.BeginForm("Index", null, FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text"
+                            name="filter"
+                            value="@ViewBag.filter"
+                            class="form-control"
+                            style="display: inline"
+                            placeholder="Buscar Producto, Linea, Laboratorio"
+                            id="txtProducto" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                </div>
+            </div>
+            <div class="pull-right col-lg-2">
+                <a class="btn btn-success" data-modal="" href="~/Producto/Create" id="btnCreate">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;<span>Nuevo Registro</span>
+                </a>
+            </div>
+        </div>
+
+        <div style="margin-top:17px;">
+            @{
+                WebGrid grid = new WebGrid(rowsPerPage: Model.PageSize, defaultSort: "NombreProducto", ajaxUpdateContainerId: "container-grid", canPage: true, canSort: true);
+                grid.Bind(Model.Content, autoSortAndPage: false, rowCount: Model.TotalRecords);
+                grid.Pager(WebGridPagerModes.All);
+                <div id="container-grid" class="table-responsive">
+                    @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                    fillEmptyRows: true,
+                    alternatingRowStyle: "alternate-row",
+                    headerStyle: "grid-header",
+                    footerStyle: "grid-footer",
+                    mode: WebGridPagerModes.All,
+                    firstText: "<< First",
+                    previousText: "< Prev",
+                    nextText: "Next >",
+                    lastText: "Last >>",
+                    tableStyle: "table table-bordered table-hover",
+                    columns: grid.Columns(
+                        grid.Column("NombreProducto", header: "Producto"),
+                        grid.Column("NombreLinea", header: "Linea"),
+                        grid.Column("NombreLaboratorio", header: "Laboratorio"),
+                        grid.Column("CatTipo", header: "Tipo Venta"),
+                        grid.Column("UnidadesPorPaquete", header: "UniXpaq"),
+                        grid.Column("NombreGenero", header: "Genero"),
+                        grid.Column("NombrePrincipioActivo", header: "PrincipioActivo"),
+                        grid.Column(header: "Acciones", canSort: false, style: "action",
+                            format: @<text>
+                            @Html.ActionLink(" ", "Details", "Producto", new { id = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-search" })
+                            @Html.ActionLink(" ", "Edit", "Producto", new { id = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-edit" })
+                            @Html.ActionLink(" ", "Delete", "Producto", new { id = item.ProductoId }, new { data_modal = "", @class = "glyphicon glyphicon-trash" })
+                            </text>)
+                    ))
+                </div>
+            }
+
+        </div>
+    }
+</div>
+
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#txtProducto").autocomplete({
+        source: "Producto/GetNombreProducto",
+        minLength: 2
+    })
+</script>

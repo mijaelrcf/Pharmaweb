@@ -1,0 +1,261 @@
+﻿@model Pharmaweb.Models.PagedList<Pharmaweb.Models.VentasModels>
+@{
+    ViewBag.Title = "Cajas y Facturacion";
+    //Layout = null;
+}
+<style>
+    td.nopadding {
+        padding: 0;
+        margin: 0;
+    }
+
+    .green {
+        background-color: green;
+        /*display: inline-block;*/
+        /*width: 100%;
+        height: 100%;*/
+        
+        margin:-10px -10px -10px -10px;
+    }
+
+    .yellow {
+        background-color: yellow;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<h1>Cajas y Facturación</h1>
+<div class="well">
+    @using (Html.BeginForm("Index", null, FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text"
+                            name="filter"
+                            value="@ViewBag.filter"
+                            class="form-control"
+                            style="display: inline"
+                            placeholder="Buscar Cliente, Estado Venta"
+                            id="txtProducto" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                </div>
+            </div>
+            @*<div class="pull-right col-lg-2">
+            <a class="btn btn-success" data-modal="" href="~/Cajas/Create" id="btnCreate">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;<span>Nuevo Registro</span>
+        </a>
+    </div>*@
+        </div>
+
+        <div style="margin-top:17px;">
+        @{
+            WebGrid grid = new WebGrid(rowsPerPage: Model.PageSize, defaultSort: "FechaCreacion", ajaxUpdateContainerId: "container-grid", canPage: true, canSort: true);
+            grid.Bind(Model.Content, autoSortAndPage: false, rowCount: Model.TotalRecords);
+            grid.Pager(WebGridPagerModes.All);
+            <div id="container-grid" class="table-responsive">
+                @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                    fillEmptyRows: false,
+                    alternatingRowStyle: "alternate-row",
+                    headerStyle: "grid-header",
+                    footerStyle: "grid-footer",
+                    mode: WebGridPagerModes.All,
+                    firstText: "<< First",
+                    previousText: "< Prev",
+                    nextText: "Next >",
+                    lastText: "Last >>",
+                    tableStyle: "table table-bordered table-hover",
+
+                    columns: grid.Columns(
+                    
+                    grid.Column("VentasId", header: "# Venta"),
+                    grid.Column("Factura", header: "Factura"),
+                    grid.Column("Nit", header: "Nit / C.I."),
+                    grid.Column("NombreCliente", header: "Nombre Cliente"),
+                    grid.Column("TotalVenta", header: "Venta"),
+                    grid.Column("TotalPagado", header: "Pago Bs."),
+                    grid.Column("Cambio", header: "Cambio"),
+                    //grid.Column("CatEstadoVenta", header: "Estado Venta"),
+                    grid.Column(header:"Estado Venta", format:@<text><input type="text" class="cityCheck form-control" readonly=readonly size="5" value="@item.CatEstadoVenta" /></text>),
+                    @*grid.Column("Estado Venta", style: "nopadding", format: @<text>@Html.Raw(item.CatEstadoVenta == "CAJAS" ? 
+                                                                 "<div class=\"green\">" + item.CatEstadoVenta +"</div>" : 
+                                                                 "<div class=\"yellow\">" + item.CatEstadoVenta +"</div>")</text>),*@
+                    grid.Column("UsuarioCreacion", header: "Vendedor"),
+                    grid.Column("FechaCreacion", header: "Fecha"),
+                    grid.Column(header: "Acciones", canSort: false, style: "action",
+                    format: @<text>
+                        @if (item.CatEstadoVenta == "CAJAS")
+                        {
+                            @Html.ActionLink(" ", "Facturar", "Cajas", new { id = item.VentasId }, new { data_modal = "", @class = "glyphicon glyphicon-usd" })
+                            @Html.ActionLink(" ", "Reingresar", "Cajas", new { id = item.VentasId }, new { data_modal = "", @class = "glyphicon glyphicon-repeat" })
+                        }                   
+                        @if (item.CatEstadoVenta == "VENDIDO")
+                        {
+                            @Html.ActionLink(" ", "Anular", "Cajas", new { id = item.VentasId }, new { data_modal = "", @class = "glyphicon glyphicon-remove" })
+                        }
+                        </text>)
+                ))
+            </div>
+        }
+
+        </div>
+    }
+</div>
+@*<input type="button" name="filter" value="@ViewBag.filter" class="form-control" style="display: inline" placeholder="Buscar Cliente, Estado Venta"       id="txtProducto" />*@
+@*<input type="button" onclick="actualizar()">*@
+
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+
+            //$("#container-grid tbody tr").each(function (i, row) {
+            //    var $actualRow = $(row);
+            //    $actualRow.children("td").each(function (i, cell){
+            //        var $actualcell = $(cell);
+            //        switch ($actualcell.html()) {
+            //            case 'ANULADO':
+            //                $(this).css("background-color", "0094ff");
+            //                break;
+            //        }
+            //    })
+            //});
+
+            $("#container-grid tbody tr").each(function (i, row) {
+                var $actualRow = $(row);
+                var valor = $actualRow.find('input.cityCheck[type=text]').val();
+
+                switch (valor) {
+                    case 'ANULADO':
+                        //$actualRow.css('color', '#FF3333');
+                        $actualRow.css("background-color", "#edc5c5");
+                        //$actualRow.css('font-weight', 'bold');
+                        break;
+                    case 'REINGRESADO':
+                        //$actualRow.css('color', '#3333FF');
+                        $actualRow.css("background-color", "#c5d5ed");
+                        //$actualRow.css('font-weight', 'bold');
+                        break;
+                    case 'VENDIDO':
+                        //$actualRow.css('color', '#33FF33');
+                        $actualRow.css("background-color", "#cae4c9");
+                        //$actualRow.css('font-weight', 'bold');
+                        break;
+                    case 'CAJAS':
+                        //$actualRow.css('color', '#33FF33');
+                        //$actualRow.css("background-color", "#cae4c9");
+                        //$actualRow.css('font-weight', 'bold');
+                        break;
+                }
+            });
+
+            //$("#container-grid tbody tr").each(function (i, row) {
+            //    var $actualRow = $(row);
+            //    var valor = $actualRow.find('input.cityCheck[type=text]').val();
+
+            //    switch (valor) {
+            //        case 'ANULADO':
+            //            //$actualRow.css('color', '#FF3333');
+            //            $actualRow.css("background-color", "#edc5c5");
+            //            //$actualRow.css('font-weight', 'bold');
+            //            break;
+            //        case 'REINGRESADO':
+            //            //$actualRow.css('color', '#3333FF');
+            //            $actualRow.css("background-color", "#c5d5ed");
+            //            //$actualRow.css('font-weight', 'bold');
+            //            break;
+            //        case 'VENDIDO':
+            //            //$actualRow.css('color', '#33FF33');
+            //            $actualRow.addClass("green");
+            //            //$actualRow.css("background-color", "#cae4c9");
+            //            //$actualRow.css('font-weight', 'bold');
+            //            break;
+            //        case 'CAJAS':
+            //            //$actualRow.css('color', '#33FF33');
+            //            //$actualRow.css("background-color", "#cae4c9");
+            //            //$actualRow.css('font-weight', 'bold');
+            //            break;
+            //    }
+            //});
+
+            
+
+            //$("#container-grid tbody tr").each(function (i, row) {
+            //    var $actualRow = $(row);
+            //    if ($actualRow.find('input.cityCheck[type=text]').val() != 'CAJAS') {
+            //        $actualRow.css('color', '#FF3333');
+            //    }
+            //});
+
+            //$("#container-grid tbody tr").each(function () {
+            //    $(this).children("td").each(function () {
+            //        switch ($(this).html()) {
+            //            case 'ANULADO':
+            //                $(this).css("background-color", "0094ff");
+            //                break;
+            //        }
+            //    })
+            //})
+
+            //$('tr.grid-footer td a').on("click", function () {
+            //    //alert("aa");
+            //    actualizar();
+            //});
+        });
+
+        //$("a href").click(actualizar())
+
+        //$('grid-footer a').click(actualizar());
+
+        //$('.grid-footer > a').click(alert("ddd"));
+        
+
+        //function actualizar() {
+        //    setTimeout(
+        //    function () {
+        //        //Lo que debe pasar pasados 10 segundos (10mil milisegundos)
+        //        $("#container-grid tbody tr").each(function (i, row) {
+        //            var $actualRow = $(row);
+        //            var valor = $actualRow.find('input.cityCheck[type=text]').val();
+
+        //            switch (valor) {
+        //                case 'ANULADO':
+        //                    //$actualRow.css('color', '#FF3333');
+        //                    $actualRow.css("background-color", "#edc5c5");
+        //                    //$actualRow.css('font-weight', 'bold');
+        //                    break;
+        //                case 'REINGRESADO':
+        //                    //$actualRow.css('color', '#3333FF');
+        //                    $actualRow.css("background-color", "#c5d5ed");
+        //                    //$actualRow.css('font-weight', 'bold');
+        //                    break;
+        //                case 'VENDIDO':
+        //                    //$actualRow.css('color', '#33FF33');
+        //                    $actualRow.addClass("green");
+        //                    //$actualRow.css("background-color", "#cae4c9");
+        //                    //$actualRow.css('font-weight', 'bold');
+        //                    break;
+        //                case 'CAJAS':
+        //                    //$actualRow.css('color', '#33FF33');
+        //                    //$actualRow.css("background-color", "#cae4c9");
+        //                    //$actualRow.css('font-weight', 'bold');
+        //                    break;
+        //            }
+        //        });
+        //        //end
+        //    }, 2000);
+
+
+            
+        //}
+    </script>

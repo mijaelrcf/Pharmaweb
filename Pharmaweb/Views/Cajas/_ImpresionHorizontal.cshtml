@@ -1,0 +1,169 @@
+﻿@model BussinesSVC.Domain.Factura
+
+@{
+    ViewBag.Title = "Impresion";
+}
+<div id="impresion">
+    <fieldset>
+        <legend>
+        </legend>
+
+        <table width="100%" class="ImpresionHorizontalTable" border="0">
+            <tr>
+                <td colspan="2" width="40%">
+                    <div class="logo_impresion">
+                        <img src="~/images/LOGO%20.jpg" width="200" />
+                    </div>
+                </td>
+                <td colspan="2" align="center" width="60%"><h1>FACTURA</h1></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.DisplayFor(m => m.NombreEmpresa)</td>
+                <td></td>
+                <td align="right">@Html.LabelFor(m => m.NIT): &nbsp; </td>
+                <td><b>@Html.DisplayFor(m => m.NIT)</b></td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.DisplayFor(m => m.NombreSucursal)</td>
+                <td></td>
+                <td align="right">@Html.LabelFor(m => m.NroFactura): &nbsp; </td>
+                <td>@Html.DisplayFor(m => m.NroFactura)</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="DireccionFactura">@Html.DisplayFor(m => m.Direccion)</td>
+                <td align="right">@Html.LabelFor(m => m.NroAutorizacion): &nbsp; </td>
+                <td>@Html.DisplayFor(m => m.NroAutorizacion)</td>
+            </tr>
+            <tr>
+                <td colspan="2">Teléfono: @Html.DisplayFor(m => m.Telefono)</td>
+                <td></td>
+                <td align="right">ORIGINAL</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.DisplayFor(m => m.Ciudad)</td>
+                <td></td>
+                <td align="right"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2"><hr /></td>
+                <td></td>
+                <td align="right"></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">@Html.DisplayFor(m => m.Sucursal)</td>
+                <td></td>
+                <td align="right">@Html.DisplayFor(m => m.Actividad)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3"> <span class="DireccionFactura">@Html.DisplayFor(m => m.DireccionSucursal)</span></td>
+                <td align="right"></td>
+                <td></td>
+            </tr>
+
+            @if (string.IsNullOrEmpty(Model.Ciudad))
+            {
+                <tr>
+                    <td colspan="2">Teléfono: @Html.DisplayFor(m => m.TelefonoSucursal)</td>
+                    <td></td>
+                    <td align="right"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="2">@Html.DisplayFor(m => m.Ciudad)</td>
+                    <td></td>
+                    <td align="right"></td>
+                    <td></td>
+                </tr>
+            }
+
+            <tr><td colspan="5"><hr /></td></tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.FechaFactura)</td>
+                <td>@Html.DisplayFor(m => m.FechaFactura)</td>
+                <td></td>
+                <td>&nbsp;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.NitCliente)</td>
+                <td>@Html.DisplayFor(m => m.NitCliente)</td>
+                <td></td>
+                <td>&nbsp;</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.NombreCliente)</td>
+                <td>@Html.DisplayFor(m => m.NombreCliente)</td>
+                <td></td>
+                <td>&nbsp;</td>
+                <td></td>
+            </tr>
+            <tr><td colspan="5"><hr /></td></tr>
+            <tr>
+                <td colspan="5">
+                    @Html.Partial("ConceptosPartial", Model.Conceptos)
+                </td>
+            </tr>
+            <tr>
+                <td>TOTAL&nbsp;</td>
+                <td>@Html.DisplayFor(m => m.MontoFactura)</td>
+                <td></td>
+                <td>&nbsp;</td>
+                <td></td>
+            </tr>
+            @*<tr>
+                    <td>DESCUENTO&nbsp;</td>
+                    <td>@Html.DisplayFor(m => m.Descuento)</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>IMPORTE BASE PARA CREDITO FISCAL&nbsp;</td>
+                    <td>@Html.DisplayFor(m => m.Total)</td>
+                    <td></td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                </tr>*@
+            <tr><td colspan="5"><hr /></td></tr>
+            <tr>
+                <td>SON&nbsp;</td>
+                <td colspan="3">@Html.DisplayFor(m => m.MontoLiteral)</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.LabelFor(m => m.CodigoControl):&nbsp;<b>@Html.DisplayFor(m => m.CodigoControl)</b></td>
+                <td>&nbsp;</td>
+                <td align="right">@Html.LabelFor(m => m.FechaLimite):&nbsp;</td>
+                @*<td>@Html.DisplayFor(m => m.FechaLimite)</td>*@
+                <td>@Html.DisplayFor(m => m.FechaLimite)</td>
+
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @if (Model.QR != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.QR);
+                        var imgSource = string.Format("data:image/gif;base64,{0}", base64);
+
+                        <img src="@imgSource" />
+                    }
+                </td>
+
+                <td colspan="3">"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY"</td>
+
+            </tr>
+            <tr>
+                <td colspan="4">@Html.DisplayFor(m => m.Leyenda)&nbsp;</td>
+
+            </tr>
+
+        </table>
+    </fieldset>
+</div>

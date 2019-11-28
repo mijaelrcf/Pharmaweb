@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ca1a3ff3e19c49a1abe29249c0f022f6" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="PharmawebModel.Catalogo" Width="1.5" PointX="10.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.CatalogoDetalle" Width="1.5" PointX="13" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Genero" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.IngresoProducto" Width="1.5" PointX="5.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.IngresoProductoDetalle" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Inventario" Width="1.5" PointX="10.5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Laboratorio" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Linea" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.PrecioProducto" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.PrincipioActivo" Width="1.5" PointX="3" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Producto" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.SalidaProducto" Width="1.5" PointX="7.5" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Sucursal" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.Ventas" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmawebModel.VentasDetalle" Width="1.5" PointX="10.5" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="PharmawebModel.FK_CatalogoDetalle_Catalogo" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Producto_Genero" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_IngresoProducto_Sucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_IngresoProductoDetalle_IngresoProducto" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_IngresoProductoDetalle_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Inventario_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Inventario_Sucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Linea_Laboratorio" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Producto_Linea" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_PrecioProducto_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_PrecioProducto_Sucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Producto_PrincipioActivo" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_SalidaProducto_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_VentasDetalle_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_SalidaProducto_Sucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_Ventas_Sucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmawebModel.FK_VentasDetalle_Ventas" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

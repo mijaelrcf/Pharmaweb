@@ -1,0 +1,58 @@
+﻿body {
+    font-size: 14px;
+    padding: 0.5px;
+    width: 100%;
+}
+
+table {
+    font-size: 10px;
+}
+
+h1 {
+    font-size: 15px;
+}
+
+.dxgvControl_ProdemThemeModerno {
+    width: 70%;
+}
+
+.container-label {
+    display: table;
+    /*border: 1px solid black;*/
+    width: 100%;
+}
+
+/*.border-view {
+    background-image: url(Images/Prodem.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+    min-height: 100px;
+    z-index: 100;
+}*/
+
+.title_View {
+    background-image: url(Images/Prodem.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+    min-height: 45px;
+    z-index: 100;
+}
+
+.info-label {
+    display: table-cell;
+    width: 25%;
+}
+
+.field-text {
+    display: table-cell;
+    width: 20em;
+    width: 65%;
+}
+
+@media print {
+    * {
+        -webkit-print-color-adjust: exact;
+    }
+}

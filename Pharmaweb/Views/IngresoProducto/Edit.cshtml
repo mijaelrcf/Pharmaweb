@@ -1,0 +1,129 @@
+﻿@using Pharmaweb.Extensions;
+@using Pharmaweb.Models;
+@model Pharmaweb.Models.IngresoProductoModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Editar</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IngresoProductoId)
+
+    <div class="modal-body">
+        <div class="well">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.SucursalId, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.SucursalId, Model.lstSucursal, new { @class = "form-control required", @disabled = "disabled" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.SucursalId)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.CatTipoIngreso, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.CatTipoIngreso, Model.lstCatTipoIngreso, "-- Seleccionar --", new { @class = "form-control required", @disabled = "disabled" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.CatTipoIngreso)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.NroFactura, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.NroFactura, new { @class = "form-control required", @disabled = "disabled" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.NroFactura)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.Observacion, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Observacion, new { @class = "form-control required", @disabled = "disabled" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Observacion)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.LaboratorioId, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(model => model.LaboratorioId, Model.lstLaboratorio, "-- Seleccionar --", new { @class = "form-control required", @id = "ddlLaboratorio", @disabled = "disabled" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.LaboratorioId)
+                        </div>
+                    </div>
+                </div>
+
+                @{
+                    var grid = new WebGrid(Model.Detalle, canSort: false, canPage: false);
+                    int rowNum = 0;
+                }
+                <div>
+                 @grid.GetHtml(displayHeader: true,
+                 tableStyle: "table table-bordered table-hover",
+                 headerStyle: "head",
+                 alternatingRowStyle: "alt",
+                 columns:
+                 grid.Columns
+                 (
+                    grid.Column("Nro.", format: item => rowNum = rowNum + 1, canSort: false, style: "alinearm"),
+                    grid.Column("Id", format: (item) => Html.TextBox("Detalle[" + (rowNum - 1).ToString() + "].IngresoProductoDetalleId", (object)item.IngresoProductoDetalleId, new { @readonly = "readonly", @class = "form-control" })),
+                    grid.Column("Producto", format: (item) => Html.TextBox("Detalle[" + (rowNum - 1).ToString() + "].NombreProducto", (object)item.NombreProducto, new { @readonly = "readonly", @class = "form-control" })),
+                    grid.Column("Cantidad Paquetes", format: (item) => Html.TextBox("Detalle[" + (rowNum - 1).ToString() + "].cantidadPaquetes", (object)item.cantidadPaquetes, new { @readonly = "readonly", @class = "form-control sm-4" })),
+                    grid.Column("Cantidad Unidades", format: (item) => Html.TextBox("Detalle[" + (rowNum - 1).ToString() + "].cantidadUnidades", (object)item.cantidadUnidades, new { @readonly = "readonly", @class = "form-control sm-4" })),
+                    grid.Column("Fecha Vencimiento", format: (item) => Html.TextBox("Detalle[" + (rowNum - 1).ToString() + "].fechaVencimiento", (object)item.fechaVencimiento, new { @class = "form-control" }))
+                 ), mode: WebGridPagerModes.Numeric)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wait" />
+            Procesando..
+        </span>
+
+        <input class="btn btn-success" type="submit" value="Guardar" />
+        <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="~/Scripts/jquery.maskedinput.min.js"></script>
+<script>
+    for (var i = 0; i < @Model.Detalle.Count; i++) {
+        var myString = "#Detalle_" + i + "__fechaVencimiento";
+        $(myString).datepicker({ dateFormat: "dd/mm/yy" }).mask("99/99/9999");
+
+        $.validator.addMethod('date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                }
+                var ok = true;
+                try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+                }
+                catch (err) {
+                    ok = false;
+                }
+                return ok;
+            });
+    }
+</script>
+
+

@@ -1,0 +1,91 @@
+﻿@model Pharmaweb.Models.ProductoModels
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">Detalle</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LaboratorioId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.LaboratorioId, Model.lstLaboratorio, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LaboratorioId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.LineaId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.LineaId, Model.lstLinea, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.LineaId)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => Model.NombreProducto, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.NombreProducto, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.NombreProducto)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.CatTipo, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.CatTipo, Model.lstCatTipo, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.CatTipo)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.UnidadesPorPaquete, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.UnidadesPorPaquete, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.UnidadesPorPaquete)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.GeneroId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.GeneroId, Model.lstGenero, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.GeneroId)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.PrincipioActivoId, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(m => m.PrincipioActivoId, Model.lstPrincipioActivo, new { @class = "form-control required", @disabled = "disabled" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.PrincipioActivoId)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+    </div>
+}

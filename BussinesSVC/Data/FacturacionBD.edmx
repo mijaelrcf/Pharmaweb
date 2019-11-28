@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BD_CerberusSVFModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tConceptoFactura">
+          <Key>
+            <PropertyRef Name="IdConceptoFactura" />
+          </Key>
+          <Property Name="IdConceptoFactura" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_factura_nb" Type="bigint" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Concepto" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Unidad" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tDosificaciones">
+          <Key>
+            <PropertyRef Name="id_dosificacion_nb" />
+          </Key>
+          <Property Name="id_dosificacion_nb" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_empresa_nb" Type="bigint" />
+          <Property Name="numeroAutorizacionVC" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="llaveDosificacionVC" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="fechaLimiteEmisionDT" Type="datetime" />
+          <Property Name="dosificacionActiva" Type="bit" />
+          <Property Name="numeroDefactura" Type="bigint" Nullable="false" />
+          <Property Name="fechaDesdeDT" Type="datetime" Nullable="false" />
+          <Property Name="fechaHastaDT" Type="datetime" />
+          <Property Name="leyendaFijaVC" Type="varchar" MaxLength="200" />
+          <Property Name="leyendaVariableVC" Type="varchar" MaxLength="200" />
+          <Property Name="fechaDeModificacion" Type="datetime" />
+          <Property Name="usuarioVC" Type="varchar" MaxLength="20" />
+          <Property Name="actividadVC" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tEmpresa">
+          <Key>
+            <PropertyRef Name="id_empresa_nb" />
+          </Key>
+          <Property Name="id_empresa_nb" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="razonSocialVC" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="tipoContribuyente" Type="varchar" MaxLength="50" />
+          <Property Name="NitEmpresaVc" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="fechaDesdeDT" Type="datetime" Nullable="false" />
+          <Property Name="fechaHasta" Type="datetime" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="NombreSucursal" Type="varchar" MaxLength="50" />
+          <Property Name="Direccion" Type="varchar" MaxLength="500" />
+          <Property Name="Zona" Type="varchar" MaxLength="500" />
+          <Property Name="Telefono" Type="varchar" MaxLength="50" />
+          <Property Name="Ciudad" Type="varchar" MaxLength="500" />
+          <Property Name="idPadre_nb" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tEstadosDeFacturas">
+          <Key>
+            <PropertyRef Name="id_estado_vc" />
+          </Key>
+          <Property Name="id_estado_vc" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="decripcionEstadoVC" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tFacturas">
+          <Key>
+            <PropertyRef Name="id_factura_nb" />
+          </Key>
+          <Property Name="id_factura_nb" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_empresa_nb" Type="bigint" Nullable="false" />
+          <Property Name="fechaRegistroDT" Type="datetime" Nullable="false" />
+          <Property Name="nitNB" Type="bigint" Nullable="false" />
+          <Property Name="razonSocialVC" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="numeroDeFacturaNB" Type="bigint" Nullable="false" />
+          <Property Name="numeroDeAutorizacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="fechaVC" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="importeTotalFacturaDC" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="importeIceDC" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="importeExcentoDC" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="importeSujetoADebitoFiscalDC" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="debitoFiscal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="id_estado_vc" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="motivoDeAnulacionVC" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="mesCerradoNB" Type="int" Nullable="false" />
+          <Property Name="usuarioVC" Type="varchar" MaxLength="20" />
+          <Property Name="codigoControlVC" Type="varchar" MaxLength="20" />
+          <Property Name="descuentoDC" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="id_dosificacion_nb" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tRoles">
+          <Key>
+            <PropertyRef Name="id_rol_nb" />
+          </Key>
+          <Property Name="id_rol_nb" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcionRolVC" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fechaRegistroDT" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tUsuarios">
+          <Key>
+            <PropertyRef Name="id_usuario_nb" />
+          </Key>
+          <Property Name="id_usuario_nb" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_rol_nb" Type="int" />
+          <Property Name="id_empresa_nb" Type="bigint" />
+          <Property Name="documentoDeIdentidad" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="nombresVC" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellidoPaternoVC" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellidoMaternoVC" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="usuario_vc" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="password_vc" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="telefonoFijoVC" Type="varchar" MaxLength="20" />
+          <Property Name="telefonoCelularVC" Type="varchar" MaxLength="20" />
+          <Property Name="fecharVigenciaDesdeDT" Type="datetime" Nullable="false" />
+          <Property Name="fecharVigenciaHastaDT" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_tConceptoFactura_tFacturas">
+          <End Role="tFacturas" Type="Self.tFacturas" Multiplicity="1" />
+          <End Role="tConceptoFactura" Type="Self.tConceptoFactura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tFacturas">
+              <PropertyRef Name="id_factura_nb" />
+            </Principal>
+            <Dependent Role="tConceptoFactura">
+              <PropertyRef Name="id_factura_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tDosificaciones_tEmpresa">
+          <End Role="tEmpresa" Type="Self.tEmpresa" Multiplicity="0..1" />
+          <End Role="tDosificaciones" Type="Self.tDosificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpresa">
+              <PropertyRef Name="id_empresa_nb" />
+            </Principal>
+            <Dependent Role="tDosificaciones">
+              <PropertyRef Name="id_empresa_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tDosificaciones">
+          <End Role="tDosificaciones" Type="Self.tDosificaciones" Multiplicity="0..1" />
+          <End Role="tFacturas" Type="Self.tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tDosificaciones">
+              <PropertyRef Name="id_dosificacion_nb" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="id_dosificacion_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tEmpresa">
+          <End Role="tEmpresa" Type="Self.tEmpresa" Multiplicity="1" />
+          <End Role="tFacturas" Type="Self.tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpresa">
+              <PropertyRef Name="id_empresa_nb" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="id_empresa_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tEstadosDeFacturas">
+          <End Role="tEstadosDeFacturas" Type="Self.tEstadosDeFacturas" Multiplicity="1" />
+          <End Role="tFacturas" Type="Self.tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEstadosDeFacturas">
+              <PropertyRef Name="id_estado_vc" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="id_estado_vc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tUsuarios_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="0..1" />
+          <End Role="tUsuarios" Type="Self.tUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="id_rol_nb" />
+            </Principal>
+            <Dependent Role="tUsuarios">
+              <PropertyRef Name="id_rol_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spAnulaFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdFactura" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="spCierraPeriodo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="bigint" Mode="In" />
+          <Parameter Name="periodoMes" Type="int" Mode="In" />
+          <Parameter Name="gestion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spConsultaDosificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="spConsultaFacturasPeriodo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="bigint" Mode="In" />
+          <Parameter Name="periodoMes" Type="int" Mode="In" />
+          <Parameter Name="gestion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGeneraLibroVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="bigint" Mode="In" />
+          <Parameter Name="periodoMes" Type="int" Mode="In" />
+          <Parameter Name="gestion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario_vc" Type="varchar" Mode="In" />
+          <Parameter Name="password_vc" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="BD_CerberusSVFModelStoreContainer">
+          <EntitySet Name="tConceptoFactura" EntityType="Self.tConceptoFactura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tDosificaciones" EntityType="Self.tDosificaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tEmpresa" EntityType="Self.tEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tEstadosDeFacturas" EntityType="Self.tEstadosDeFacturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tFacturas" EntityType="Self.tFacturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRoles" EntityType="Self.tRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tUsuarios" EntityType="Self.tUsuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tConceptoFactura_tFacturas" Association="Self.FK_tConceptoFactura_tFacturas">
+            <End Role="tFacturas" EntitySet="tFacturas" />
+            <End Role="tConceptoFactura" EntitySet="tConceptoFactura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tDosificaciones_tEmpresa" Association="Self.FK_tDosificaciones_tEmpresa">
+            <End Role="tEmpresa" EntitySet="tEmpresa" />
+            <End Role="tDosificaciones" EntitySet="tDosificaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tDosificaciones" Association="Self.FK_tFacturas_tDosificaciones">
+            <End Role="tDosificaciones" EntitySet="tDosificaciones" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tEmpresa" Association="Self.FK_tFacturas_tEmpresa">
+            <End Role="tEmpresa" EntitySet="tEmpresa" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tEstadosDeFacturas" Association="Self.FK_tFacturas_tEstadosDeFacturas">
+            <End Role="tEstadosDeFacturas" EntitySet="tEstadosDeFacturas" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUsuarios_tRoles" Association="Self.FK_tUsuarios_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tUsuarios" EntitySet="tUsuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BD_CerberusSVFModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tEmpresa">
+          <Key>
+            <PropertyRef Name="id_empresa_nb" />
+          </Key>
+          <Property Name="id_empresa_nb" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="razonSocialVC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipoContribuyente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NitEmpresaVc" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaDesdeDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaHasta" Type="DateTime" Precision="3" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="NombreSucursal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Zona" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tDosificaciones" Relationship="BD_CerberusSVFModel.FK_tDosificaciones_tEmpresa" FromRole="tEmpresa" ToRole="tDosificaciones" />
+          <NavigationProperty Name="tFacturas" Relationship="BD_CerberusSVFModel.FK_tFacturas_tEmpresa" FromRole="tEmpresa" ToRole="tFacturas" />
+          <Property Name="idPadre_nb" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tEstadosDeFacturas">
+          <Key>
+            <PropertyRef Name="id_estado_vc" />
+          </Key>
+          <Property Name="id_estado_vc" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="decripcionEstadoVC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tFacturas" Relationship="BD_CerberusSVFModel.FK_tFacturas_tEstadosDeFacturas" FromRole="tEstadosDeFacturas" ToRole="tFacturas" />
+        </EntityType>
+        <EntityType Name="tRoles">
+          <Key>
+            <PropertyRef Name="id_rol_nb" />
+          </Key>
+          <Property Name="id_rol_nb" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcionRolVC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaRegistroDT" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tUsuarios" Relationship="BD_CerberusSVFModel.FK_tUsuarios_tRoles" FromRole="tRoles" ToRole="tUsuarios" />
+        </EntityType>
+        <EntityType Name="tUsuarios">
+          <Key>
+            <PropertyRef Name="id_usuario_nb" />
+          </Key>
+          <Property Name="id_usuario_nb" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_rol_nb" Type="Int32" />
+          <Property Name="documentoDeIdentidad" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombresVC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidoPaternoVC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidoMaternoVC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usuario_vc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password_vc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefonoFijoVC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="telefonoCelularVC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fecharVigenciaDesdeDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fecharVigenciaHastaDT" Type="DateTime" Precision="3" />
+          <Property Name="id_empresa_nb" Type="Int64" />
+          <NavigationProperty Name="tRoles" Relationship="BD_CerberusSVFModel.FK_tUsuarios_tRoles" FromRole="tUsuarios" ToRole="tRoles" />
+        </EntityType>
+        <EntityContainer Name="BD_CerberusSVFEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tEmpresa" EntityType="Self.tEmpresa" />
+          <EntitySet Name="tEstadosDeFacturas" EntityType="Self.tEstadosDeFacturas" />
+          <EntitySet Name="tRoles" EntityType="Self.tRoles" />
+          <EntitySet Name="tUsuarios" EntityType="Self.tUsuarios" />
+          <AssociationSet Name="FK_tUsuarios_tRoles" Association="BD_CerberusSVFModel.FK_tUsuarios_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tUsuarios" EntitySet="tUsuarios" />
+          </AssociationSet>
+          <FunctionImport Name="spLogin" ReturnType="Collection(BD_CerberusSVFModel.spLogin_Result)">
+            <Parameter Name="usuario_vc" Mode="In" Type="String" />
+            <Parameter Name="password_vc" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tDosificaciones" EntityType="BD_CerberusSVFModel.tDosificaciones" />
+          <AssociationSet Name="FK_tDosificaciones_tEmpresa" Association="BD_CerberusSVFModel.FK_tDosificaciones_tEmpresa">
+            <End Role="tEmpresa" EntitySet="tEmpresa" />
+            <End Role="tDosificaciones" EntitySet="tDosificaciones" />
+          </AssociationSet>
+          <EntitySet Name="tConceptoFactura" EntityType="BD_CerberusSVFModel.tConceptoFactura" />
+          <EntitySet Name="tFacturas" EntityType="BD_CerberusSVFModel.tFacturas" />
+          <AssociationSet Name="FK_tConceptoFactura_tFacturas" Association="BD_CerberusSVFModel.FK_tConceptoFactura_tFacturas">
+            <End Role="tFacturas" EntitySet="tFacturas" />
+            <End Role="tConceptoFactura" EntitySet="tConceptoFactura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tEmpresa" Association="BD_CerberusSVFModel.FK_tFacturas_tEmpresa">
+            <End Role="tEmpresa" EntitySet="tEmpresa" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tEstadosDeFacturas" Association="BD_CerberusSVFModel.FK_tFacturas_tEstadosDeFacturas">
+            <End Role="tEstadosDeFacturas" EntitySet="tEstadosDeFacturas" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <FunctionImport Name="spGeneraLibroVentas" ReturnType="Collection(BD_CerberusSVFModel.spGeneraLibroVentas_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int64" />
+            <Parameter Name="periodoMes" Mode="In" Type="Int32" />
+            <Parameter Name="gestion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAnulaFactura" ReturnType="Collection(String)">
+          <Parameter Name="IdFactura" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="spCierraPeriodo">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int64" />
+            <Parameter Name="periodoMes" Mode="In" Type="Int32" />
+            <Parameter Name="gestion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaFacturasPeriodo" ReturnType="Collection(BD_CerberusSVFModel.spConsultaFacturasPeriodo_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int64" />
+            <Parameter Name="periodoMes" Mode="In" Type="Int32" />
+            <Parameter Name="gestion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaDosificacion" ReturnType="Collection(BD_CerberusSVFModel.spConsultaDosificacion_Result)">
+          <Parameter Name="IdEmpresa" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <AssociationSet Name="FK_tFacturas_tDosificaciones" Association="BD_CerberusSVFModel.FK_tFacturas_tDosificaciones">
+            <End Role="tDosificaciones" EntitySet="tDosificaciones" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_tUsuarios_tRoles">
+          <End Type="BD_CerberusSVFModel.tRoles" Role="tRoles" Multiplicity="0..1" />
+          <End Type="BD_CerberusSVFModel.tUsuarios" Role="tUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="id_rol_nb" />
+            </Principal>
+            <Dependent Role="tUsuarios">
+              <PropertyRef Name="id_rol_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spLogin_Result">
+          <Property Type="String" Name="usuario_vc" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="respuesta_bo" Nullable="true" />
+          <Property Type="String" Name="Log_respuesta_vc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="rol_name" Nullable="true" MaxLength="500" />
+          <Property Type="Int64" Name="id_empresa" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tDosificaciones">
+          <Key>
+            <PropertyRef Name="id_dosificacion_nb" />
+          </Key>
+          <Property Name="id_dosificacion_nb" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_empresa_nb" Type="Int64" />
+          <Property Name="numeroAutorizacionVC" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="llaveDosificacionVC" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="fechaLimiteEmisionDT" Type="DateTime" Precision="3" />
+          <Property Name="dosificacionActiva" Type="Boolean" />
+          <Property Name="numeroDefactura" Type="Int64" Nullable="false" />
+          <Property Name="fechaDesdeDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaHastaDT" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tEmpresa" Relationship="BD_CerberusSVFModel.FK_tDosificaciones_tEmpresa" FromRole="tDosificaciones" ToRole="tEmpresa" />
+          <Property Name="leyendaFijaVC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="leyendaVariableVC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fechaDeModificacion" Type="DateTime" Precision="3" />
+          <Property Name="usuarioVC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="actividadVC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tFacturas" Relationship="BD_CerberusSVFModel.FK_tFacturas_tDosificaciones" FromRole="tDosificaciones" ToRole="tFacturas" />
+        </EntityType>
+        <Association Name="FK_tDosificaciones_tEmpresa">
+          <End Type="BD_CerberusSVFModel.tEmpresa" Role="tEmpresa" Multiplicity="0..1" />
+          <End Type="BD_CerberusSVFModel.tDosificaciones" Role="tDosificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpresa">
+              <PropertyRef Name="id_empresa_nb" />
+            </Principal>
+            <Dependent Role="tDosificaciones">
+              <PropertyRef Name="id_empresa_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tConceptoFactura">
+          <Key>
+            <PropertyRef Name="IdConceptoFactura" />
+          </Key>
+          <Property Name="IdConceptoFactura" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_factura_nb" Type="Int64" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Concepto" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Unidad" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tFacturas" Relationship="BD_CerberusSVFModel.FK_tConceptoFactura_tFacturas" FromRole="tConceptoFactura" ToRole="tFacturas" />
+        </EntityType>
+        <EntityType Name="tFacturas">
+          <Key>
+            <PropertyRef Name="id_factura_nb" />
+          </Key>
+          <Property Name="id_factura_nb" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_empresa_nb" Type="Int64" Nullable="false" />
+          <Property Name="fechaRegistroDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="nitNB" Type="Int64" Nullable="false" />
+          <Property Name="razonSocialVC" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="numeroDeFacturaNB" Type="Int64" Nullable="false" />
+          <Property Name="numeroDeAutorizacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fechaVC" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="importeTotalFacturaDC" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="importeIceDC" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="importeExcentoDC" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="importeSujetoADebitoFiscalDC" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="debitoFiscal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="id_estado_vc" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="motivoDeAnulacionVC" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="mesCerradoNB" Type="Int32" Nullable="false" />
+          <Property Name="usuarioVC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="codigoControlVC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tConceptoFactura" Relationship="BD_CerberusSVFModel.FK_tConceptoFactura_tFacturas" FromRole="tFacturas" ToRole="tConceptoFactura" />
+          <NavigationProperty Name="tEmpresa" Relationship="BD_CerberusSVFModel.FK_tFacturas_tEmpresa" FromRole="tFacturas" ToRole="tEmpresa" />
+          <NavigationProperty Name="tEstadosDeFacturas" Relationship="BD_CerberusSVFModel.FK_tFacturas_tEstadosDeFacturas" FromRole="tFacturas" ToRole="tEstadosDeFacturas" />
+          <Property Name="descuentoDC" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="id_dosificacion_nb" Type="Int64" />
+          <NavigationProperty Name="tDosificaciones" Relationship="BD_CerberusSVFModel.FK_tFacturas_tDosificaciones" FromRole="tFacturas" ToRole="tDosificaciones" />
+        </EntityType>
+        <Association Name="FK_tConceptoFactura_tFacturas">
+          <End Type="BD_CerberusSVFModel.tFacturas" Role="tFacturas" Multiplicity="1" />
+          <End Type="BD_CerberusSVFModel.tConceptoFactura" Role="tConceptoFactura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tFacturas">
+              <PropertyRef Name="id_factura_nb" />
+            </Principal>
+            <Dependent Role="tConceptoFactura">
+              <PropertyRef Name="id_factura_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tEmpresa">
+          <End Type="BD_CerberusSVFModel.tEmpresa" Role="tEmpresa" Multiplicity="1" />
+          <End Type="BD_CerberusSVFModel.tFacturas" Role="tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpresa">
+              <PropertyRef Name="id_empresa_nb" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="id_empresa_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tEstadosDeFacturas">
+          <End Type="BD_CerberusSVFModel.tEstadosDeFacturas" Role="tEstadosDeFacturas" Multiplicity="1" />
+          <End Type="BD_CerberusSVFModel.tFacturas" Role="tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEstadosDeFacturas">
+              <PropertyRef Name="id_estado_vc" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="id_estado_vc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spGeneraLibroVentas_Result">
+          <Property Type="Int64" Name="NIT" Nullable="false" />
+          <Property Type="String" Name="RAZONSOCIAL" Nullable="false" MaxLength="200" />
+          <Property Type="Int64" Name="NUMEROFACTURA" Nullable="false" />
+          <Property Type="String" Name="NUMEROAUTORIZACION" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FECHA" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="IMPORTETOTALFACTURA" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="IMPORTE_ICE" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="IMPORTE_EXCENTO" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="IMPORTE_SUJETO_A_DEB_FISCAL" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="DEBITOFISCAL" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="ESTADO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CODIGO_DE_CONTROL" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="spConsultaFacturasPeriodo_Result">
+          <Property Type="Int64" Name="idFactura" Nullable="false" />
+          <Property Type="Int64" Name="NIT" Nullable="false" />
+          <Property Type="String" Name="RAZONSOCIAL" Nullable="true" MaxLength="200" />
+          <Property Type="Int64" Name="NUMEROFACTURA" Nullable="false" />
+          <Property Type="String" Name="NUMEROAUTORIZACION" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FECHA" Nullable="false" MaxLength="10" />
+          <Property Type="Decimal" Name="IMPORTETOTALFACTURA" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="IMPORTE_ICE" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="IMPORTE_EXCENTO" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="IMPORTE_SUJETO_A_DEB_FISCAL" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="DEBITOFISCAL" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="ESTADO" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CODIGO_DE_CONTROL" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="id_estado_vc" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="motivoDeAnulacionVC" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="mesCerradoNB" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spConsultaDosificacion_Result">
+          <Property Type="String" Name="numeroAutorizacionVC" Nullable="false" MaxLength="20" />
+          <Property Type="Int64" Name="numeroDefactura" Nullable="false" />
+          <Property Type="String" Name="llaveDosificacionVC" Nullable="false" MaxLength="300" />
+          <Property Type="Int64" Name="id_dosificacion_nb" Nullable="false" />
+          <Property Type="String" Name="actividadVC" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <Association Name="FK_tFacturas_tDosificaciones">
+          <End Type="BD_CerberusSVFModel.tDosificaciones" Role="tDosificaciones" Multiplicity="0..1" />
+          <End Type="BD_CerberusSVFModel.tFacturas" Role="tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tDosificaciones">
+              <PropertyRef Name="id_dosificacion_nb" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="id_dosificacion_nb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BD_CerberusSVFModelStoreContainer" CdmEntityContainer="BD_CerberusSVFEntities">
+          <EntitySetMapping Name="tEmpresa">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tEmpresa">
+              <MappingFragment StoreEntitySet="tEmpresa">
+                <ScalarProperty Name="idPadre_nb" ColumnName="idPadre_nb" />
+                <ScalarProperty Name="id_empresa_nb" ColumnName="id_empresa_nb" />
+                <ScalarProperty Name="razonSocialVC" ColumnName="razonSocialVC" />
+                <ScalarProperty Name="tipoContribuyente" ColumnName="tipoContribuyente" />
+                <ScalarProperty Name="NitEmpresaVc" ColumnName="NitEmpresaVc" />
+                <ScalarProperty Name="fechaDesdeDT" ColumnName="fechaDesdeDT" />
+                <ScalarProperty Name="fechaHasta" ColumnName="fechaHasta" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="NombreSucursal" ColumnName="NombreSucursal" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Zona" ColumnName="Zona" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tEstadosDeFacturas">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tEstadosDeFacturas">
+              <MappingFragment StoreEntitySet="tEstadosDeFacturas">
+                <ScalarProperty Name="id_estado_vc" ColumnName="id_estado_vc" />
+                <ScalarProperty Name="decripcionEstadoVC" ColumnName="decripcionEstadoVC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRoles">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tRoles">
+              <MappingFragment StoreEntitySet="tRoles">
+                <ScalarProperty Name="id_rol_nb" ColumnName="id_rol_nb" />
+                <ScalarProperty Name="descripcionRolVC" ColumnName="descripcionRolVC" />
+                <ScalarProperty Name="fechaRegistroDT" ColumnName="fechaRegistroDT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tUsuarios">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tUsuarios">
+              <MappingFragment StoreEntitySet="tUsuarios">
+                <ScalarProperty Name="id_empresa_nb" ColumnName="id_empresa_nb" />
+                <ScalarProperty Name="id_usuario_nb" ColumnName="id_usuario_nb" />
+                <ScalarProperty Name="id_rol_nb" ColumnName="id_rol_nb" />
+                <ScalarProperty Name="documentoDeIdentidad" ColumnName="documentoDeIdentidad" />
+                <ScalarProperty Name="nombresVC" ColumnName="nombresVC" />
+                <ScalarProperty Name="apellidoPaternoVC" ColumnName="apellidoPaternoVC" />
+                <ScalarProperty Name="apellidoMaternoVC" ColumnName="apellidoMaternoVC" />
+                <ScalarProperty Name="usuario_vc" ColumnName="usuario_vc" />
+                <ScalarProperty Name="password_vc" ColumnName="password_vc" />
+                <ScalarProperty Name="telefonoFijoVC" ColumnName="telefonoFijoVC" />
+                <ScalarProperty Name="telefonoCelularVC" ColumnName="telefonoCelularVC" />
+                <ScalarProperty Name="fecharVigenciaDesdeDT" ColumnName="fecharVigenciaDesdeDT" />
+                <ScalarProperty Name="fecharVigenciaHastaDT" ColumnName="fecharVigenciaHastaDT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spLogin" FunctionName="BD_CerberusSVFModel.Store.spLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BD_CerberusSVFModel.spLogin_Result">
+                <ScalarProperty Name="usuario_vc" ColumnName="usuario_vc" />
+                <ScalarProperty Name="respuesta_bo" ColumnName="respuesta_bo" />
+                <ScalarProperty Name="Log_respuesta_vc" ColumnName="Log_respuesta_vc" />
+                <ScalarProperty Name="rol_name" ColumnName="rol_name" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tDosificaciones">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tDosificaciones">
+              <MappingFragment StoreEntitySet="tDosificaciones">
+                <ScalarProperty Name="actividadVC" ColumnName="actividadVC" />
+                <ScalarProperty Name="usuarioVC" ColumnName="usuarioVC" />
+                <ScalarProperty Name="fechaDeModificacion" ColumnName="fechaDeModificacion" />
+                <ScalarProperty Name="leyendaVariableVC" ColumnName="leyendaVariableVC" />
+                <ScalarProperty Name="leyendaFijaVC" ColumnName="leyendaFijaVC" />
+                <ScalarProperty Name="fechaHastaDT" ColumnName="fechaHastaDT" />
+                <ScalarProperty Name="fechaDesdeDT" ColumnName="fechaDesdeDT" />
+                <ScalarProperty Name="numeroDefactura" ColumnName="numeroDefactura" />
+                <ScalarProperty Name="dosificacionActiva" ColumnName="dosificacionActiva" />
+                <ScalarProperty Name="fechaLimiteEmisionDT" ColumnName="fechaLimiteEmisionDT" />
+                <ScalarProperty Name="llaveDosificacionVC" ColumnName="llaveDosificacionVC" />
+                <ScalarProperty Name="numeroAutorizacionVC" ColumnName="numeroAutorizacionVC" />
+                <ScalarProperty Name="id_empresa_nb" ColumnName="id_empresa_nb" />
+                <ScalarProperty Name="id_dosificacion_nb" ColumnName="id_dosificacion_nb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tConceptoFactura">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tConceptoFactura">
+              <MappingFragment StoreEntitySet="tConceptoFactura">
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="id_factura_nb" ColumnName="id_factura_nb" />
+                <ScalarProperty Name="IdConceptoFactura" ColumnName="IdConceptoFactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tFacturas">
+            <EntityTypeMapping TypeName="BD_CerberusSVFModel.tFacturas">
+              <MappingFragment StoreEntitySet="tFacturas">
+                <ScalarProperty Name="id_dosificacion_nb" ColumnName="id_dosificacion_nb" />
+                <ScalarProperty Name="descuentoDC" ColumnName="descuentoDC" />
+                <ScalarProperty Name="codigoControlVC" ColumnName="codigoControlVC" />
+                <ScalarProperty Name="usuarioVC" ColumnName="usuarioVC" />
+                <ScalarProperty Name="mesCerradoNB" ColumnName="mesCerradoNB" />
+                <ScalarProperty Name="motivoDeAnulacionVC" ColumnName="motivoDeAnulacionVC" />
+                <ScalarProperty Name="id_estado_vc" ColumnName="id_estado_vc" />
+                <ScalarProperty Name="debitoFiscal" ColumnName="debitoFiscal" />
+                <ScalarProperty Name="importeSujetoADebitoFiscalDC" ColumnName="importeSujetoADebitoFiscalDC" />
+                <ScalarProperty Name="importeExcentoDC" ColumnName="importeExcentoDC" />
+                <ScalarProperty Name="importeIceDC" ColumnName="importeIceDC" />
+                <ScalarProperty Name="importeTotalFacturaDC" ColumnName="importeTotalFacturaDC" />
+                <ScalarProperty Name="fechaVC" ColumnName="fechaVC" />
+                <ScalarProperty Name="numeroDeAutorizacion" ColumnName="numeroDeAutorizacion" />
+                <ScalarProperty Name="numeroDeFacturaNB" ColumnName="numeroDeFacturaNB" />
+                <ScalarProperty Name="razonSocialVC" ColumnName="razonSocialVC" />
+                <ScalarProperty Name="nitNB" ColumnName="nitNB" />
+                <ScalarProperty Name="fechaRegistroDT" ColumnName="fechaRegistroDT" />
+                <ScalarProperty Name="id_empresa_nb" ColumnName="id_empresa_nb" />
+                <ScalarProperty Name="id_factura_nb" ColumnName="id_factura_nb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGeneraLibroVentas" FunctionName="BD_CerberusSVFModel.Store.spGeneraLibroVentas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BD_CerberusSVFModel.spGeneraLibroVentas_Result">
+                <ScalarProperty Name="NIT" ColumnName="NIT" />
+                <ScalarProperty Name="RAZONSOCIAL" ColumnName="RAZONSOCIAL" />
+                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
+                <ScalarProperty Name="NUMEROAUTORIZACION" ColumnName="NUMEROAUTORIZACION" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="IMPORTETOTALFACTURA" ColumnName="IMPORTETOTALFACTURA" />
+                <ScalarProperty Name="IMPORTE_ICE" ColumnName="IMPORTE ICE" />
+                <ScalarProperty Name="IMPORTE_EXCENTO" ColumnName="IMPORTE EXCENTO" />
+                <ScalarProperty Name="IMPORTE_SUJETO_A_DEB_FISCAL" ColumnName="IMPORTE SUJETO A DEB.FISCAL" />
+                <ScalarProperty Name="DEBITOFISCAL" ColumnName="DEBITOFISCAL" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="CODIGO_DE_CONTROL" ColumnName="CODIGO DE CONTROL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAnulaFactura" FunctionName="BD_CerberusSVFModel.Store.spAnulaFactura" />
+          <FunctionImportMapping FunctionImportName="spCierraPeriodo" FunctionName="BD_CerberusSVFModel.Store.spCierraPeriodo" />
+          <FunctionImportMapping FunctionImportName="spConsultaFacturasPeriodo" FunctionName="BD_CerberusSVFModel.Store.spConsultaFacturasPeriodo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BD_CerberusSVFModel.spConsultaFacturasPeriodo_Result">
+                <ScalarProperty Name="idFactura" ColumnName="idFactura" />
+                <ScalarProperty Name="NIT" ColumnName="NIT" />
+                <ScalarProperty Name="RAZONSOCIAL" ColumnName="RAZONSOCIAL" />
+                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
+                <ScalarProperty Name="NUMEROAUTORIZACION" ColumnName="NUMEROAUTORIZACION" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="IMPORTETOTALFACTURA" ColumnName="IMPORTETOTALFACTURA" />
+                <ScalarProperty Name="IMPORTE_ICE" ColumnName="IMPORTE ICE" />
+                <ScalarProperty Name="IMPORTE_EXCENTO" ColumnName="IMPORTE EXCENTO" />
+                <ScalarProperty Name="IMPORTE_SUJETO_A_DEB_FISCAL" ColumnName="IMPORTE SUJETO A DEB.FISCAL" />
+                <ScalarProperty Name="DEBITOFISCAL" ColumnName="DEBITOFISCAL" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="CODIGO_DE_CONTROL" ColumnName="CODIGO DE CONTROL" />
+                <ScalarProperty Name="id_estado_vc" ColumnName="id_estado_vc" />
+                <ScalarProperty Name="motivoDeAnulacionVC" ColumnName="motivoDeAnulacionVC" />
+                <ScalarProperty Name="mesCerradoNB" ColumnName="mesCerradoNB" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaDosificacion" FunctionName="BD_CerberusSVFModel.Store.spConsultaDosificacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BD_CerberusSVFModel.spConsultaDosificacion_Result">
+                <ScalarProperty Name="numeroAutorizacionVC" ColumnName="numeroAutorizacionVC" />
+                <ScalarProperty Name="numeroDefactura" ColumnName="numeroDefactura" />
+                <ScalarProperty Name="llaveDosificacionVC" ColumnName="llaveDosificacionVC" />
+                <ScalarProperty Name="id_dosificacion_nb" ColumnName="id_dosificacion_nb" />
+                <ScalarProperty Name="actividadVC" ColumnName="actividadVC" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
